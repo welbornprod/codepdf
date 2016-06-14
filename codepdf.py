@@ -42,7 +42,7 @@ except ImportError as eximpcolr:
 colr_auto_disable()
 
 NAME = 'CodePDF'
-VERSION = '0.0.1'
+VERSION = '0.0.2'
 VERSIONSTR = '{} v. {}'.format(NAME, VERSION)
 SCRIPT = os.path.split(os.path.abspath(sys.argv[0]))[1]
 SCRIPTDIR = os.path.abspath(sys.path[0])
@@ -55,6 +55,8 @@ STDIN_NAME = '-'
 DEFAULT_STYLE = 'default'
 # Default pygments lexer, when it can't be detected.
 DEFAULT_LEXER = 'text'
+# Class name for each file's div.
+DIV_CLASS = 'hilight'
 
 USAGESTR = """{versionstr}
     Usage:
@@ -64,11 +66,13 @@ USAGESTR = """{versionstr}
     Options:
         FILE                    : File names to convert, or {stdin} for stdin.
                                   If no names are given, stdin is used.
-        -D,--debug              : Print some debug info while runnigng.
+        -D,--debug              : Print some debug info while running.
         -f,--forcemd            : Highlight markdown syntax, instead of
                                   converting to HTML.
         -h,--help               : Show this help message.
         -H,--html               : Output in HTML instead of PDF.
+                                  Using .htm or .html as the output file
+                                  extension will automatically set this flag.
         -l,--linenumbers        : Use line numbers.
         -o file,--out file      : Output file name.
                                   Default: <input_basename>.pdf
@@ -94,11 +98,16 @@ def main(argd):
         return print_styles()
 
     filenames = argd['FILE'] or [STDIN_NAME]
+    html_mode = argd['--html']
     outname = get_output_name(
         filenames,
         output_name=argd['--out'],
-        html_mode=argd['--html']
+        html_mode=html_mode,
     )
+    # Check for user-provided .html output file.
+    if not html_mode:
+        html_mode = outname.lower().endswith(('.htm', '.html'))
+
     success = convert_files(
         argd['FILE'] or [STDIN_NAME],
         argd['--out'] or get_output_name(filenames),
@@ -106,9 +115,43 @@ def main(argd):
         linenos=argd['--linenumbers'],
         title=argd['--title'],
         force_highlight=argd['--forcemd'],
-        html_mode=argd['--html']
+        html_mode=html_mode,
     )
-    return 0 if success else 1
+    if success:
+        print(outname)
+        return 0
+    return 1
+
+
+def build_html(body, styles=None, title=None):
+    """ Try to build a somewhat-sane html page from a body and style-defs. """
+    if not styles:
+        styles = ['body {font-family: sans-serif;}']
+    else:
+        styles = list(styles)
+        styles.insert(0, 'body {font-family: sans-serif;}')
+
+    styles.append('\n'.join((
+        'hr {',
+        'border-style: hidden;',
+        'height: 2px;',
+        'background: #f1f1f1;',
+        'margin-top: 25px;',
+        '}',
+    )))
+    return '\n'.join((
+        '<html>',
+        '<head>',
+        '<title>{}</title>'.format(title or ''),
+        '<style type="text/css">',
+        '\n'.join(styles),
+        '</style>',
+        '</head>',
+        '<body>',
+        body,
+        '</body>',
+        '</html>'
+    ))
 
 
 def convert_files(
@@ -136,15 +179,18 @@ def convert_files(
         )
     )
     htmlcontent = []
-    for filename in filenames:
+    styledefs = []
+    for i, filename in enumerate(filenames):
         titletext = title or os.path.split(filename)[-1]
         formatter = get_formatter(
             stylename=stylename,
             linenos=linenos,
-            title=titletext
+            title=titletext,
         )
+        if not styledefs:
+            styledefs.append(formatter.get_style_defs())
         htmlcontent.append(
-            convert_to_html(
+            convert_to_html_div(
                 filename,
                 formatter,
                 stylename=stylename,
@@ -152,31 +198,42 @@ def convert_files(
                 force_highlight=force_highlight
             )
         )
-
+    allcontent = build_html(
+        '<hr class="nv">'.join(htmlcontent),
+        styles=styledefs,
+        title=titletext
+    )
     if html_mode:
         debug('Writing HTML to file...')
         with open(outputname, 'w') as f:
-            f.write('<hr>'.join(htmlcontent))
+            f.write(allcontent)
         return True
 
     debug('Converting to PDF...')
     return pdf_from_string(
-        '<hr>'.join(htmlcontent),
+        allcontent,
         outputname,
-        options={'title': titletext}
+        options={'--title': titletext, '--quiet': ''}
     )
 
 
 def convert_highlighted(filename, formatter):
-    """ Highlight a file with pygments, and return the resulting HTML. """
+    """ Highlight a file with pygments, and return the resulting HTML div. """
     displayname, content = get_file_content(filename)
     lexer = get_file_lexer(filename, content)
     debug('Highlighting: {}'.format(displayname))
-    return highlight(content, lexer, formatter)
+    return '\n'.join((
+        '<div class="file">',
+        '<h2>{}</h2>'.format(displayname),
+        '<div class="{}">'.format(DIV_CLASS),
+        highlight(content, lexer, formatter),
+        '</div>',
+        '</div>'
+    ))
 
 
 def convert_markdown(filename, stylename=None, linenos=False):
-    """ Convert a markdown file to HTML, and return the result. """
+    """ Convert a markdown file to an HTML div, and return the result. """
     displayname, content = get_file_content(filename)
     stylename = stylename.lower() if stylename else DEFAULT_STYLE
     debug('Converting MD: {}'.format(displayname))
@@ -186,7 +243,7 @@ def convert_markdown(filename, stylename=None, linenos=False):
         noclasses=True,
     )
     return '\n'.join((
-        '<div style="font-family: sans-serif;">',
+        '<div class="markdown">',
         markdown(
             content,
             output_format='html5',
@@ -200,11 +257,12 @@ def convert_markdown(filename, stylename=None, linenos=False):
     ))
 
 
-def convert_to_html(
+def convert_to_html_div(
         filename, formatter,
         stylename=None, linenos=False, force_highlight=False):
-    """ Convert a file to html. The conversion method depends on the
-        file extension.
+    """ Convert a file to an html div.
+        The conversion method depends on the file extension.
+        build_html() should be used with the content returned here.
     """
     if (not force_highlight) and filename.endswith(('.md', '.markdown')):
         return convert_markdown(
@@ -280,14 +338,15 @@ def get_file_lexer(filename, content):
     return lexer
 
 
-def get_formatter(stylename=None, linenos=False, title=None):
+def get_formatter(stylename=None, linenos=False, title=None, full=False):
     """ Get an HTMLFormatter from pygments. """
     stylename = stylename.lower() if stylename else DEFAULT_STYLE
     try:
         formatter = formatters.HtmlFormatter(
-            linenos=linenos,
+            cssclass=DIV_CLASS,
+            linenos='inline' if linenos is True else linenos,
             style=stylename,
-            full=True,
+            full=full,
             title=title
         )
     except ClassNotFound:
@@ -373,8 +432,11 @@ if __name__ == '__main__':
             file=sys.stderr)
         mainret = 3
     except EnvironmentError as ex:
-        print_err(
-            '\n{x.strerr}: {x.filename}'.format(x=ex)
-        )
+        if ex.strerror and ex.filename:
+            print_err(
+                '\n{x.strerror}: {x.filename}'.format(x=ex)
+            )
+        else:
+            print_err('\n{}'.format(ex))
         mainret = 1
     sys.exit(mainret)

@@ -43,11 +43,13 @@ Usage:
 Options:
     FILE                    : File names to convert, or - for stdin.
                               If no names are given, stdin is used.
-    -D,--debug              : Print some debug info while runnigng.
+    -D,--debug              : Print some debug info while running.
     -f,--forcemd            : Highlight markdown syntax, instead of
                               converting to HTML.
     -h,--help               : Show this help message.
     -H,--html               : Output in HTML instead of PDF.
+                              Using .htm or .html as the output file
+                              extension will automatically set this flag.
     -l,--linenumbers        : Use line numbers.
     -o file,--out file      : Output file name.
                               Default: <input_basename>.pdf
