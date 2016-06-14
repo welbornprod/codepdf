@@ -1,6 +1,6 @@
 # CodePDF
 
-Creates PDF files from code/markdown files.
+Creates PDF/HTML files from code/markdown files.
 
 ## Dependencies:
 
@@ -24,19 +24,37 @@ These packages can be installed with `pip`.
 - **Pygments** (`pygments`):
     Used for converting code files.
 
+## Installation:
+
+I recommend symlinking this script somewhere in your `$PATH`:
+```bash
+git clone https://github.com/welbornprod/codepdf.git
+cd codepdf
+ln -s "$PWD/codepdf.py" ~/.local/bin/codepdf
+```
+
 ## Command line help:
 
 ```
 Usage:
-    codepdf [-h | -v] [-D]
-    codepdf [FILE...] [-o file] [-D]
+    codepdf -h | -S | -v
+    codepdf [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
 
 Options:
-    FILE                : File names to convert, or - for stdin.
-                          If no names are given, stdin is used.
-    -D,--debug          : Print some debug info while runnigng.
-    -o file,--out file  : Output file name. If no name is given,
-                          then <input_basename>.pdf is used.
-    -h,--help           : Show this help message.
-    -v,--version        : Show version.
+    FILE                    : File names to convert, or - for stdin.
+                              If no names are given, stdin is used.
+    -D,--debug              : Print some debug info while runnigng.
+    -f,--forcemd            : Highlight markdown syntax, instead of
+                              converting to HTML.
+    -h,--help               : Show this help message.
+    -H,--html               : Output in HTML instead of PDF.
+    -l,--linenumbers        : Use line numbers.
+    -o file,--out file      : Output file name.
+                              Default: <input_basename>.pdf
+    -s name,--style name    : Pygments style name to use for code files.
+                              Default: default
+    -S,--styles             : Print all known pygments styles.
+    -t title,--title title  : Title for the PDF.
+                              Default: <input_filename>
+    -v,--version            : Show version.
 ```
