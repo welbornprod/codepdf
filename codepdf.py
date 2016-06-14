@@ -5,11 +5,30 @@
     Convert code/text files to pdf.
     -Christopher Welborn 06-13-2016
 """
+# print_function just to say "don't use python 2."
+from __future__ import print_function
 import inspect
 import os
 import sys
-from contextlib import suppress
+try:
+    from contextlib import suppress
+except ImportError as ex:
+    print('Error importing contextlib.suppress: {}'.format(ex))
+    if sys.version_info.major < 3:
+        # Better message than 'cannot import name suppress'
+        print(
+            '\n'.join((
+                '\nCodePDF only works with Python 3+.',
+                '\nCurrent python version:\n  {}'.format(
+                    sys.version.replace('\n', '\n  ')
+                )
+            )),
+            file=sys.stderr
+        )
 
+    sys.exit(1)
+
+# Third-party libs.
 try:
     from colr import (
         auto_disable as colr_auto_disable,
