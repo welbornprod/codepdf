@@ -416,11 +416,10 @@ def get_formatter(stylename=None, linenos=False, title=None, full=False):
         raise InvalidArg(
             '\n'.join((
                 'Unknown style name: {style}',
-                'Expecting:',
-                '    {styles}'
+                'Run `{script} --styles` to see a list of style names.',
             )).format(
                 style=stylename,
-                styles='\n    '.join(sorted(styles.STYLE_MAP))
+                script=SCRIPT,
             )
         )
     return formatter
