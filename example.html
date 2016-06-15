@@ -77,7 +77,7 @@ margin-top: 25px;
 </style>
 </head>
 <body>
-<div class="markdown">
+<div class="markdown hilight">
 <h1>CodePDF</h1>
 <p>Creates PDF/HTML files from code/markdown files.</p>
 <h2>Dependencies:</h2>
@@ -109,42 +109,43 @@ ln -s <span style="color: #BA2121">&quot;</span><span style="color: #19177C">$PW
 
 
 <h2>Command line help:</h2>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Usage<span style="color: #666666">:</span>
-    codepdf <span style="color: #666666">-</span>h <span style="color: #666666">|</span> <span style="color: #666666">-</span>S <span style="color: #666666">|</span> <span style="color: #666666">-</span>v
-    codepdf <span style="color: #666666">[</span>FILE<span style="color: #666666">...]</span> <span style="color: #666666">[-</span>f<span style="color: #666666">]</span> <span style="color: #666666">[-</span>H<span style="color: #666666">]</span> <span style="color: #666666">[-</span>l<span style="color: #666666">]</span> <span style="color: #666666">[-</span>o file<span style="color: #666666">]</span> <span style="color: #666666">[-</span>s style<span style="color: #666666">]</span> <span style="color: #666666">[-</span>t title<span style="color: #666666">]</span> <span style="color: #666666">[-</span>D<span style="color: #666666">]</span>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Usage:
+    codepdf -h | -S | -v
+    codepdf [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
 
-Options<span style="color: #666666">:</span>
-    FILE                    <span style="color: #666666">:</span> File names to convert<span style="color: #666666">,</span> or <span style="color: #666666">-</span> <span style="color: #008000; font-weight: bold">for</span> stdin<span style="color: #666666">.</span>
-                              If no names are given<span style="color: #666666">,</span> stdin <span style="color: #008000; font-weight: bold">is</span> used<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>D<span style="color: #666666">,--</span>debug              <span style="color: #666666">:</span> Print some debug info <span style="color: #008000; font-weight: bold">while</span> running<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>f<span style="color: #666666">,--</span>forcemd            <span style="color: #666666">:</span> Highlight markdown syntax<span style="color: #666666">,</span> instead of
-                              converting to HTML<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>h<span style="color: #666666">,--</span>help               <span style="color: #666666">:</span> Show <span style="color: #008000; font-weight: bold">this</span> help message<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>H<span style="color: #666666">,--</span>html               <span style="color: #666666">:</span> Output <span style="color: #008000; font-weight: bold">in</span> HTML instead of PDF<span style="color: #666666">.</span>
-                              Using <span style="color: #666666">.</span><span style="color: #7D9029">htm</span> or <span style="color: #666666">.</span><span style="color: #7D9029">html</span> <span style="color: #008000; font-weight: bold">as</span> the output file
-                              extension will automatically <span style="color: #008000; font-weight: bold">set</span> <span style="color: #008000; font-weight: bold">this</span> flag<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>l<span style="color: #666666">,--</span>linenumbers        <span style="color: #666666">:</span> Use line numbers<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>o file<span style="color: #666666">,--</span>out file      <span style="color: #666666">:</span> Output file name<span style="color: #666666">.</span>
-                              Default<span style="color: #666666">:</span> <span style="color: #666666">&lt;</span>input_basename<span style="color: #666666">&gt;.</span>pdf
-    <span style="color: #666666">-</span>s name<span style="color: #666666">,--</span>style name    <span style="color: #666666">:</span> Pygments style name to use <span style="color: #008000; font-weight: bold">for</span> code files<span style="color: #666666">.</span>
-                              Default<span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">default</span>
-    <span style="color: #666666">-</span>S<span style="color: #666666">,--</span>styles             <span style="color: #666666">:</span> Print all known pygments styles<span style="color: #666666">.</span>
-    <span style="color: #666666">-</span>t title<span style="color: #666666">,--</span>title title  <span style="color: #666666">:</span> Title <span style="color: #008000; font-weight: bold">for</span> the PDF<span style="color: #666666">.</span>
-                              Default<span style="color: #666666">:</span> <span style="color: #666666">&lt;</span>input_filename<span style="color: #666666">&gt;</span>
-    <span style="color: #666666">-</span>v<span style="color: #666666">,--</span>version            <span style="color: #666666">:</span> Show version<span style="color: #666666">.</span>
+Options:
+    FILE                    : File names to convert, or - for stdin.
+                              If no names are given, stdin is used.
+    -D,--debug              : Print some debug info while running.
+    -f,--forcemd            : Highlight markdown syntax, instead of
+                              converting to HTML.
+    -h,--help               : Show this help message.
+    -H,--html               : Output in HTML instead of PDF.
+                              Using .htm or .html as the output file
+                              extension will automatically set this flag.
+    -l,--linenumbers        : Use line numbers.
+    -o file,--out file      : Output file name.
+                              Default: &lt;input_basename&gt;.pdf
+    -s name,--style name    : Pygments style name to use for code files.
+                              Default: default
+    -S,--styles             : Print all known pygments styles.
+    -t title,--title title  : Title for the PDF.
+                              Default: &lt;input_filename&gt;
+    -v,--version            : Show version.
 </pre></div>
 
 
 <h2>Examples:</h2>
-<p><a href="example.pdf">example.pdf</a>
-is a PDF file that was created by running:</p>
-<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>codepdf README.md requirements.txt codepdf.py -o example.pdf
-</pre></div>
-
-
 <p><a href="example.html">example.html</a>
 is an HTML file that was created by running:</p>
 <div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>codepdf README.md requirements.txt codepdf.py -o example.html
+</pre></div>
+
+
+<p>This is the same HTML that is used to create the PDF file.</p>
+<p><a href="example.pdf">example.pdf</a>
+is a PDF file that was created by running:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>codepdf README.md requirements.txt codepdf.py -o example.pdf
 </pre></div>
 </div><hr class="nv"><div class="file">
 <a href="#requirementstxt" style="text-decoration: none;">
@@ -424,7 +425,7 @@ Pygments&gt;=2.1.3
     <span class="p">)</span>
 
 
-<span class="k">def</span> <span class="nf">convert_highlighted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">convert_hilight</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Highlight a file with pygments, and return the resulting HTML div. &quot;&quot;&quot;</span>
     <span class="n">displayname</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">get_file_content</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
     <span class="n">lexer</span> <span class="o">=</span> <span class="n">get_file_lexer</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
@@ -455,7 +456,7 @@ Pygments&gt;=2.1.3
         <span class="n">noclasses</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
-        <span class="s1">&#39;&lt;div class=&quot;markdown&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;div class=&quot;markdown hilight&quot;&gt;&#39;</span><span class="p">,</span>
         <span class="n">markdown</span><span class="p">(</span>
             <span class="n">content</span><span class="p">,</span>
             <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;html5&#39;</span><span class="p">,</span>
@@ -482,7 +483,7 @@ Pygments&gt;=2.1.3
             <span class="n">stylename</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
             <span class="n">linenos</span><span class="o">=</span><span class="n">linenos</span>
         <span class="p">)</span>
-    <span class="k">return</span> <span class="n">convert_highlighted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">convert_hilight</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -552,15 +553,31 @@ Pygments&gt;=2.1.3
         <span class="c1"># Pygments sometimes returns a weird lexer for .txt files.</span>
         <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.txt&#39;</span><span class="p">):</span>
             <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_by_name</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Lexer forced by extension: {:&gt;20} -&gt; {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lexer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">filename</span><span class="p">,</span>
+            <span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_for_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Lexer chosen by file name: {:&gt;20} -&gt; {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lexer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">filename</span><span class="p">,</span>
+            <span class="p">))</span>
     <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Guess by content.</span>
             <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">guess_lexer</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Lexer guessed by content:  {:&gt;20} -&gt; {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lexer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">filename</span><span class="p">,</span>
+            <span class="p">))</span>
         <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
             <span class="c1"># Fall back to default lexer.</span>
             <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_by_name</span><span class="p">(</span><span class="n">DEFAULT_LEXER</span><span class="p">)</span>
+            <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Lexer set to default:      {:&gt;20} -&gt; {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">lexer</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">filename</span><span class="p">,</span>
+            <span class="p">))</span>
     <span class="k">return</span> <span class="n">lexer</span>
 
 

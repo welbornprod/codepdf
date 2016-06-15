@@ -35,7 +35,7 @@ ln -s "$PWD/codepdf.py" ~/.local/bin/codepdf
 
 ## Command line help:
 
-```
+```text
 Usage:
     codepdf -h | -S | -v
     codepdf [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
@@ -66,7 +66,7 @@ Options:
 [example.html](example.html)
 is an HTML file that was created by running:
 
-```
+```text
 codepdf README.md requirements.txt codepdf.py -o example.html
 ```
 
@@ -75,6 +75,6 @@ This is the same HTML that is used to create the PDF file.
 [example.pdf](example.pdf)
 is a PDF file that was created by running:
 
-```
+```text
 codepdf README.md requirements.txt codepdf.py -o example.pdf
 ```

@@ -238,7 +238,7 @@ def convert_files(
     )
 
 
-def convert_highlighted(filename, formatter):
+def convert_hilight(filename, formatter):
     """ Highlight a file with pygments, and return the resulting HTML div. """
     displayname, content = get_file_content(filename)
     lexer = get_file_lexer(filename, content)
@@ -269,7 +269,7 @@ def convert_markdown(filename, stylename=None, linenos=False):
         noclasses=True,
     )
     return '\n'.join((
-        '<div class="markdown">',
+        '<div class="markdown hilight">',
         markdown(
             content,
             output_format='html5',
@@ -296,7 +296,7 @@ def convert_to_html_div(
             stylename=stylename,
             linenos=linenos
         )
-    return convert_highlighted(filename, formatter)
+    return convert_hilight(filename, formatter)
 
 
 def debug(*args, **kwargs):
@@ -366,15 +366,31 @@ def get_file_lexer(filename, content):
         # Pygments sometimes returns a weird lexer for .txt files.
         if filename.lower().endswith('.txt'):
             lexer = lexers.get_lexer_by_name('text')
+            debug('Lexer forced by extension: {:>20} -> {}'.format(
+                lexer.name,
+                filename,
+            ))
         else:
             lexer = lexers.get_lexer_for_filename(filename)
+            debug('Lexer chosen by file name: {:>20} -> {}'.format(
+                lexer.name,
+                filename,
+            ))
     except ClassNotFound:
         try:
             # Guess by content.
             lexer = lexers.guess_lexer(content)
+            debug('Lexer guessed by content:  {:>20} -> {}'.format(
+                lexer.name,
+                filename,
+            ))
         except ClassNotFound:
             # Fall back to default lexer.
             lexer = lexers.get_lexer_by_name(DEFAULT_LEXER)
+            debug('Lexer set to default:      {:>20} -> {}'.format(
+                lexer.name,
+                filename,
+            ))
     return lexer
 
 
