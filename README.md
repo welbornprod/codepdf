@@ -63,16 +63,18 @@ Options:
 
 ## Examples:
 
-[example.pdf](example.pdf)
-is a PDF file that was created by running:
-
-```
-codepdf README.md requirements.txt codepdf.py -o example.pdf
-```
-
 [example.html](example.html)
 is an HTML file that was created by running:
 
 ```
 codepdf README.md requirements.txt codepdf.py -o example.html
+```
+
+This is the same HTML that is used to create the PDF file.
+
+[example.pdf](example.pdf)
+is a PDF file that was created by running:
+
+```
+codepdf README.md requirements.txt codepdf.py -o example.pdf
 ```
