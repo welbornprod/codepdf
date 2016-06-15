@@ -38,7 +38,8 @@ ln -s "$PWD/codepdf.py" ~/.local/bin/codepdf
 ```text
 Usage:
     codepdf -h | -S | -v
-    codepdf [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
+    codepdf [FILE...] [-f] [-H] [-l] [-n] [-o file]
+            [-s style] [-t title] [-D]
 
 Options:
     FILE                    : File names to convert, or - for stdin.
@@ -51,6 +52,7 @@ Options:
                               Using .htm or .html as the output file
                               extension will automatically set this flag.
     -l,--linenumbers        : Use line numbers.
+    -n,--noconfig           : Ignore config file settings.
     -o file,--out file      : Output file name.
                               Default: <input_basename>.pdf
     -s name,--style name    : Pygments style name to use for code files.
