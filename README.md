@@ -68,8 +68,9 @@ Options:
 The `forcemd`, `html`, `linenumbers`, `style`, and `title` options can be
 set permanently in a config file (`codepdf.json`).
 
-The file can be located in your home dir (`~`),
+The file can be located in
 the current working dir (`$PWD`),
+your home dir (`~`),
 or next to `codepdf.py`.
 
 The directories are tried in that order.
