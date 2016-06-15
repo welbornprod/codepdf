@@ -134,9 +134,12 @@ ln -s <span style="color: #e6db74">&quot;</span><span style="color: #f8f8f2">$PW
 20
 21
 22
-23</pre></div></td><td class="code"><div class="hilight" style="background: #272822"><pre style="line-height: 125%"><span></span>Usage:
+23
+24
+25</pre></div></td><td class="code"><div class="hilight" style="background: #272822"><pre style="line-height: 125%"><span></span>Usage:
     codepdf -h | -S | -v
-    codepdf [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
+    codepdf [FILE...] [-f] [-H] [-l] [-n] [-o file]
+            [-s style] [-t title] [-D]
 
 Options:
     FILE                    : File names to convert, or - for stdin.
@@ -149,6 +152,7 @@ Options:
                               Using .htm or .html as the output file
                               extension will automatically set this flag.
     -l,--linenumbers        : Use line numbers.
+    -n,--noconfig           : Ignore config file settings.
     -o file,--out file      : Output file name.
                               Default: &lt;input_basename&gt;.pdf
     -s name,--style name    : Pygments style name to use for code files.
@@ -163,8 +167,9 @@ Options:
 <h2>Config:</h2>
 <p>The <code>forcemd</code>, <code>html</code>, <code>linenumbers</code>, <code>style</code>, and <code>title</code> options can be
 set permanently in a config file (<code>codepdf.json</code>).</p>
-<p>The file can be located in your home dir (<code>~</code>),
+<p>The file can be located in
 the current working dir (<code>$PWD</code>),
+your home dir (<code>~</code>),
 or next to <code>codepdf.py</code>.</p>
 <p>The directories are tried in that order.</p>
 <p>Single line javascript comments are acceptable.</p>
