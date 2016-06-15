@@ -61,13 +61,42 @@ Options:
     -v,--version            : Show version.
 ```
 
+## Config:
+
+The `forcemd`, `html`, `linenumbers`, `style`, and `title` options can be
+set permanently in a config file (`codepdf.json`).
+
+The file can be located in your home dir (`~`),
+the current working dir (`$PWD`),
+or next to `codepdf.py`.
+
+The directories are tried in that order.
+
+Single line javascript comments are acceptable.
+
+### Example config (codepdf.json):
+```javascript
+{
+    // Syntax highlight markdown files instead of converting to HTML.
+    "forcemd": false,
+    // Use HTML output instead of PDF.
+    "html": false,
+    // Use line numbers for source files and readme code sections.
+    "linenumbers": false,
+    // Pygments style to use.
+    "style": "default",
+    // Title for the output PDF/HTML.
+    "title": null
+}
+```
+
 ## Examples:
 
 [example.html](example.html)
 is an HTML file that was created by running:
 
 ```text
-codepdf README.md requirements.txt codepdf.py -o example.html
+codepdf README.md requirements.txt codepdf.py -l -s monokai -o example.html
 ```
 
 This is the same HTML that is used to create the PDF file.
@@ -76,5 +105,5 @@ This is the same HTML that is used to create the PDF file.
 is a PDF file that was created by running:
 
 ```text
-codepdf README.md requirements.txt codepdf.py -o example.pdf
+codepdf README.md requirements.txt codepdf.py -l -s monokai -o example.pdf
 ```

@@ -6,8 +6,7 @@ appname="CodePDF Example Updater"
 appversion="0.0.1"
 apppath="$(readlink -f "${BASH_SOURCE[0]}")"
 appscript="${apppath##*/}"
-appdir="${apppath%/*}"
-
+# appdir="${apppath%/*}"
 
 function echo_err {
     # Echo to stderr.
@@ -37,14 +36,16 @@ function print_usage {
         $appscript [-D]
 
     Options:
+        STYLE         : Pygments style to use for the examples.
         -D,--debug    : Use debug mode for codepdf when updating examples.
         -h,--help     : Show this message.
         -v,--version  : Show $appname version and exit.
     "
 }
 
-declare -a nonflags
+declare -a styles
 codepdf_args=("--title" "CodePDF Example Output")
+
 for arg; do
     case "$arg" in
         "-D"|"--debug" )
@@ -62,16 +63,20 @@ for arg; do
             fail_usage "Unknown flag argument: $arg"
             ;;
         *)
-            nonflags=("${nonflags[@]}" "$arg")
+            styles+=("$arg")
     esac
 done
 
+((${#styles[@]})) && codepdf_args+=("--style" "${styles[0]}")
+
 include_files=(
-    "$appdir/README.md"
-    "$appdir/requirements.txt"
-    "$appdir/codepdf.py"
+    "README.md"
+    "requirements.txt"
+    "codepdf.py"
 )
 exts=(".pdf" ".html")
 for fileext in "${exts[@]}"; do
-    ./codepdf.py "${codepdf_args[@]}" "${include_files[@]}" -o "example${fileext}"
+    file_args=("${include_files[@]}" "${codepdf_args[@]}" "-o" "example${fileext}")
+    echo "Running codepdf" "${file_args[@]}"
+    ./codepdf.py "${file_args[@]}"
 done

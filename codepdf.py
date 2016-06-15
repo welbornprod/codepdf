@@ -8,6 +8,7 @@
 # print_function just to say "don't use python 2."
 from __future__ import print_function
 import inspect
+import json
 import os
 import sys
 try:
@@ -61,7 +62,7 @@ except ImportError as eximpcolr:
 colr_auto_disable()
 
 NAME = 'CodePDF'
-VERSION = '0.0.4'
+VERSION = '0.0.5'
 VERSIONSTR = '{} v. {}'.format(NAME, VERSION)
 SCRIPT = os.path.split(os.path.abspath(sys.argv[0]))[1]
 SCRIPTDIR = os.path.abspath(sys.path[0])
@@ -80,7 +81,8 @@ DIV_CLASS = 'hilight'
 USAGESTR = """{versionstr}
     Usage:
         {script} -h | -S | -v
-        {script} [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]
+        {script} [FILE...] [-f] [-H] [-l] [-n] [-o file]
+                 [-s style] [-t title] [-D]
 
     Options:
         FILE                    : File names to convert, or {stdin} for stdin.
@@ -93,6 +95,7 @@ USAGESTR = """{versionstr}
                                   Using .htm or .html as the output file
                                   extension will automatically set this flag.
         -l,--linenumbers        : Use line numbers.
+        -n,--noconfig           : Ignore config file settings.
         -o file,--out file      : Output file name.
                                   Default: <input_basename>.pdf
         -s name,--style name    : Pygments style name to use for code files.
@@ -113,6 +116,9 @@ def main(argd):
     """ Main entry point, expects doctopt arg dict as argd. """
     global DEBUG
     DEBUG = argd['--debug']
+    # Load user config, if applicable.
+    argd = load_config(argd)
+
     if argd['--styles']:
         return print_styles()
 
@@ -267,9 +273,10 @@ def convert_markdown(filename, stylename=None, linenos=False):
         pygments_style=stylename,
         linenums=linenos,
         noclasses=True,
+        css_class='hilight',
     )
     return '\n'.join((
-        '<div class="markdown hilight">',
+        '<div class="markdown">',
         markdown(
             content,
             output_format='html5',
@@ -456,6 +463,50 @@ def get_output_name(filenames, output_name=None, html_mode=False):
     )
 
 
+def load_config(argd):
+    """ Load config from ~/.codepdf.json or ./.codepdf.json.
+        Override argd values with user config.
+    """
+    if argd['--noconfig']:
+        debug('Config ignored.')
+        return argd
+
+    filename = 'codepdf.json'
+    for trydir in (os.getcwd(), os.path.expanduser('~'), SCRIPTDIR):
+        filepath = os.path.join(trydir, filename)
+        if os.path.exists(filepath):
+            debug('Found config file: {}'.format(filepath))
+            break
+    else:
+        debug('No config file found: {}'.format(filename))
+        return argd
+
+    with open(filepath, 'r') as f:
+        content = ''.join(l for l in f if not l.strip().startswith('//'))
+
+    try:
+        rawconfig = json.loads(content)
+    except ValueError as ex:
+        raise ConfigError('Unable to load config from: {}\n{}'.format(
+            filepath,
+            ex
+        ))
+
+    # Config that is allowed:
+    for k in ('html', 'linenumbers', 'forcemd', 'style', 'title'):
+        arg = '--{}'.format(k)
+        rawval = rawconfig.get(k, None)
+        if rawval is not None:
+            if argd[arg]:
+                # Do no override cmdline options.
+                debug('Option set: {:>15} == {}'.format(arg, argd[arg]))
+            else:
+                argd[arg] = rawval
+                debug('Config set: {:>15} == {}'.format(arg, argd[arg]))
+    # Argd has been overridden
+    return argd
+
+
 def print_err(*args, **kwargs):
     """ A wrapper for print() that uses stderr by default. """
     if kwargs.get('file', None) is None:
@@ -481,7 +532,12 @@ def read_stdin():
     return sys.stdin.read()
 
 
-class InvalidArg(ValueError):
+class ConfigError(ValueError):
+    """ Raised when config can't be loaded due to parsing errors. """
+    pass
+
+
+class InvalidArg(ConfigError):
     """ Raised when the user has used an invalid argument. """
     def __init__(self, msg=None):
         self.msg = msg or ''
@@ -495,7 +551,7 @@ class InvalidArg(ValueError):
 if __name__ == '__main__':
     try:
         mainret = main(docopt(USAGESTR, version=VERSIONSTR))
-    except InvalidArg as ex:
+    except ConfigError as ex:
         print_err(ex)
         mainret = 1
     except (EOFError, KeyboardInterrupt):
