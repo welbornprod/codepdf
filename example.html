@@ -1,0 +1,693 @@
+<html>
+<head>
+<title>codepdf.py</title>
+<style type="text/css">
+body {font-family: sans-serif;}
+.hilight .hll { background-color: #ffffcc }
+.hilight  { background: #f8f8f8; }
+.hilight .c { color: #408080; font-style: italic } /* Comment */
+.hilight .err { border: 1px solid #FF0000 } /* Error */
+.hilight .k { color: #008000; font-weight: bold } /* Keyword */
+.hilight .o { color: #666666 } /* Operator */
+.hilight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.hilight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.hilight .cp { color: #BC7A00 } /* Comment.Preproc */
+.hilight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.hilight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.hilight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.hilight .gd { color: #A00000 } /* Generic.Deleted */
+.hilight .ge { font-style: italic } /* Generic.Emph */
+.hilight .gr { color: #FF0000 } /* Generic.Error */
+.hilight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.hilight .gi { color: #00A000 } /* Generic.Inserted */
+.hilight .go { color: #888888 } /* Generic.Output */
+.hilight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.hilight .gs { font-weight: bold } /* Generic.Strong */
+.hilight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.hilight .gt { color: #0044DD } /* Generic.Traceback */
+.hilight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.hilight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.hilight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.hilight .kp { color: #008000 } /* Keyword.Pseudo */
+.hilight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.hilight .kt { color: #B00040 } /* Keyword.Type */
+.hilight .m { color: #666666 } /* Literal.Number */
+.hilight .s { color: #BA2121 } /* Literal.String */
+.hilight .na { color: #7D9029 } /* Name.Attribute */
+.hilight .nb { color: #008000 } /* Name.Builtin */
+.hilight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.hilight .no { color: #880000 } /* Name.Constant */
+.hilight .nd { color: #AA22FF } /* Name.Decorator */
+.hilight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.hilight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.hilight .nf { color: #0000FF } /* Name.Function */
+.hilight .nl { color: #A0A000 } /* Name.Label */
+.hilight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.hilight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.hilight .nv { color: #19177C } /* Name.Variable */
+.hilight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.hilight .w { color: #bbbbbb } /* Text.Whitespace */
+.hilight .mb { color: #666666 } /* Literal.Number.Bin */
+.hilight .mf { color: #666666 } /* Literal.Number.Float */
+.hilight .mh { color: #666666 } /* Literal.Number.Hex */
+.hilight .mi { color: #666666 } /* Literal.Number.Integer */
+.hilight .mo { color: #666666 } /* Literal.Number.Oct */
+.hilight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.hilight .sc { color: #BA2121 } /* Literal.String.Char */
+.hilight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.hilight .s2 { color: #BA2121 } /* Literal.String.Double */
+.hilight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.hilight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.hilight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.hilight .sx { color: #008000 } /* Literal.String.Other */
+.hilight .sr { color: #BB6688 } /* Literal.String.Regex */
+.hilight .s1 { color: #BA2121 } /* Literal.String.Single */
+.hilight .ss { color: #19177C } /* Literal.String.Symbol */
+.hilight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.hilight .vc { color: #19177C } /* Name.Variable.Class */
+.hilight .vg { color: #19177C } /* Name.Variable.Global */
+.hilight .vi { color: #19177C } /* Name.Variable.Instance */
+.hilight .il { color: #666666 } /* Literal.Number.Integer.Long */
+hr {
+border-style: hidden;
+height: 2px;
+background: #f1f1f1;
+margin-top: 25px;
+}
+</style>
+</head>
+<body>
+<div class="markdown">
+<h1>CodePDF</h1>
+<p>Creates PDF/HTML files from code/markdown files.</p>
+<h2>Dependencies:</h2>
+<p>These are system package dependencies.</p>
+<ul>
+<li><strong>Python 3+</strong> (<code>python3</code>):
+    This program uses python 3 features, and is not compatible with Python 2.</li>
+<li><strong>WKHtmlToPDF</strong> (<code>wkhtmltopdf</code>):
+    Converts HTML to PDF, and is required by <code>pdfkit</code>.</li>
+</ul>
+<h3>Python package dependencies:</h3>
+<p>These packages can be installed with <code>pip</code>.</p>
+<ul>
+<li><strong>Docopt</strong> (<code>docopt</code>):
+    Used for command-line argument parsing.</li>
+<li><strong>Markdown</strong> (<code>markdown</code>):
+    Used for converting markdown files.</li>
+<li><strong>PdfKit</strong> (<code>pdfkit</code>):
+    Used for converting html to pdf.</li>
+<li><strong>Pygments</strong> (<code>pygments</code>):
+    Used for converting code files.</li>
+</ul>
+<h2>Installation:</h2>
+<p>I recommend symlinking this script somewhere in your <code>$PATH</code>:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>git clone https://github.com/welbornprod/codepdf.git
+<span style="color: #008000">cd</span> codepdf
+ln -s <span style="color: #BA2121">&quot;</span><span style="color: #19177C">$PWD</span><span style="color: #BA2121">/codepdf.py&quot;</span> ~/.local/bin/codepdf
+</pre></div>
+
+
+<h2>Command line help:</h2>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>Usage<span style="color: #666666">:</span>
+    codepdf <span style="color: #666666">-</span>h <span style="color: #666666">|</span> <span style="color: #666666">-</span>S <span style="color: #666666">|</span> <span style="color: #666666">-</span>v
+    codepdf <span style="color: #666666">[</span>FILE<span style="color: #666666">...]</span> <span style="color: #666666">[-</span>f<span style="color: #666666">]</span> <span style="color: #666666">[-</span>H<span style="color: #666666">]</span> <span style="color: #666666">[-</span>l<span style="color: #666666">]</span> <span style="color: #666666">[-</span>o file<span style="color: #666666">]</span> <span style="color: #666666">[-</span>s style<span style="color: #666666">]</span> <span style="color: #666666">[-</span>t title<span style="color: #666666">]</span> <span style="color: #666666">[-</span>D<span style="color: #666666">]</span>
+
+Options<span style="color: #666666">:</span>
+    FILE                    <span style="color: #666666">:</span> File names to convert<span style="color: #666666">,</span> or <span style="color: #666666">-</span> <span style="color: #008000; font-weight: bold">for</span> stdin<span style="color: #666666">.</span>
+                              If no names are given<span style="color: #666666">,</span> stdin <span style="color: #008000; font-weight: bold">is</span> used<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>D<span style="color: #666666">,--</span>debug              <span style="color: #666666">:</span> Print some debug info <span style="color: #008000; font-weight: bold">while</span> running<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>f<span style="color: #666666">,--</span>forcemd            <span style="color: #666666">:</span> Highlight markdown syntax<span style="color: #666666">,</span> instead of
+                              converting to HTML<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>h<span style="color: #666666">,--</span>help               <span style="color: #666666">:</span> Show <span style="color: #008000; font-weight: bold">this</span> help message<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>H<span style="color: #666666">,--</span>html               <span style="color: #666666">:</span> Output <span style="color: #008000; font-weight: bold">in</span> HTML instead of PDF<span style="color: #666666">.</span>
+                              Using <span style="color: #666666">.</span><span style="color: #7D9029">htm</span> or <span style="color: #666666">.</span><span style="color: #7D9029">html</span> <span style="color: #008000; font-weight: bold">as</span> the output file
+                              extension will automatically <span style="color: #008000; font-weight: bold">set</span> <span style="color: #008000; font-weight: bold">this</span> flag<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>l<span style="color: #666666">,--</span>linenumbers        <span style="color: #666666">:</span> Use line numbers<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>o file<span style="color: #666666">,--</span>out file      <span style="color: #666666">:</span> Output file name<span style="color: #666666">.</span>
+                              Default<span style="color: #666666">:</span> <span style="color: #666666">&lt;</span>input_basename<span style="color: #666666">&gt;.</span>pdf
+    <span style="color: #666666">-</span>s name<span style="color: #666666">,--</span>style name    <span style="color: #666666">:</span> Pygments style name to use <span style="color: #008000; font-weight: bold">for</span> code files<span style="color: #666666">.</span>
+                              Default<span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">default</span>
+    <span style="color: #666666">-</span>S<span style="color: #666666">,--</span>styles             <span style="color: #666666">:</span> Print all known pygments styles<span style="color: #666666">.</span>
+    <span style="color: #666666">-</span>t title<span style="color: #666666">,--</span>title title  <span style="color: #666666">:</span> Title <span style="color: #008000; font-weight: bold">for</span> the PDF<span style="color: #666666">.</span>
+                              Default<span style="color: #666666">:</span> <span style="color: #666666">&lt;</span>input_filename<span style="color: #666666">&gt;</span>
+    <span style="color: #666666">-</span>v<span style="color: #666666">,--</span>version            <span style="color: #666666">:</span> Show version<span style="color: #666666">.</span>
+</pre></div>
+
+
+<h2>Examples:</h2>
+<p><a href="example.pdf">example.pdf</a>
+is a PDF file that was created by running:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>codepdf README.md requirements.txt codepdf.py -o example.pdf
+</pre></div>
+
+
+<p><a href="example.html">example.html</a>
+is an HTML file that was created by running:</p>
+<div class="codehilite" style="background: #f8f8f8"><pre style="line-height: 125%"><span></span>codepdf README.md requirements.txt codepdf.py -o example.html
+</pre></div>
+</div><hr class="nv"><div class="file">
+<a href="#requirementstxt" style="text-decoration: none;">
+
+    <svg style="vertical-align: middle; display: inline;"
+    height="16" version="1.1" viewBox="0 0 16 16" width="16">
+    <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0
+    1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98
+    0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98
+    0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31
+    7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+    </path></svg>
+    
+</a>
+<h2 id="requirementstxt" style="display: inline-block">requirements.txt</h2>
+<div class="hilight">
+<div class="hilight"><pre><span></span>Colr&gt;=0.2.5
+docopt&gt;=0.6.2
+Markdown&gt;=2.6.6
+pdfkit&gt;=0.5.0
+Pygments&gt;=2.1.3
+</pre></div>
+
+</div>
+</div><hr class="nv"><div class="file">
+<a href="#codepdfpy" style="text-decoration: none;">
+
+    <svg style="vertical-align: middle; display: inline;"
+    height="16" version="1.1" viewBox="0 0 16 16" width="16">
+    <path d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0
+    1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98
+    0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98
+    0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31
+    7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z">
+    </path></svg>
+    
+</a>
+<h2 id="codepdfpy" style="display: inline-block">codepdf.py</h2>
+<div class="hilight">
+<div class="hilight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">&quot;&quot;&quot; codepdf.py</span>
+<span class="sd">    Convert code/text files to pdf.</span>
+<span class="sd">    -Christopher Welborn 06-13-2016</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1"># print_function just to say &quot;don&#39;t use python 2.&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">print_function</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Error importing contextlib.suppress: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="o">.</span><span class="n">major</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="c1"># Better message than &#39;cannot import name suppress&#39;</span>
+        <span class="k">print</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">CodePDF only works with Python 3+.&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Current python version:</span><span class="se">\n</span><span class="s1">  {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">sys</span><span class="o">.</span><span class="n">version</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">  &#39;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="p">)),</span>
+            <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+        <span class="p">)</span>
+
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Third-party libs.</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">colr</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">auto_disable</span> <span class="k">as</span> <span class="n">colr_auto_disable</span><span class="p">,</span>
+        <span class="n">Colr</span> <span class="k">as</span> <span class="n">C</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">docopt</span> <span class="kn">import</span> <span class="n">docopt</span>
+    <span class="kn">from</span> <span class="nn">markdown</span> <span class="kn">import</span> <span class="n">markdown</span>
+    <span class="kn">from</span> <span class="nn">markdown.extensions.codehilite</span> <span class="kn">import</span> <span class="n">CodeHiliteExtension</span>
+    <span class="kn">from</span> <span class="nn">markdown.extensions.fenced_code</span> <span class="kn">import</span> <span class="n">FencedCodeExtension</span>
+    <span class="kn">from</span> <span class="nn">markdown.extensions.sane_lists</span> <span class="kn">import</span> <span class="n">SaneListExtension</span>
+    <span class="kn">from</span> <span class="nn">pdfkit</span> <span class="kn">import</span> <span class="n">from_string</span> <span class="k">as</span> <span class="n">pdf_from_string</span>
+    <span class="kn">from</span> <span class="nn">pygments</span> <span class="kn">import</span> <span class="n">highlight</span><span class="p">,</span> <span class="n">lexers</span><span class="p">,</span> <span class="n">formatters</span><span class="p">,</span> <span class="n">styles</span>
+    <span class="kn">from</span> <span class="nn">pygments.util</span> <span class="kn">import</span> <span class="n">ClassNotFound</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">eximpcolr</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+            <span class="s1">&#39;Failed to import {pname}, you may need to install it:&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;    pip install {exc.name}&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Original error:&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;    {exc.msg}&#39;</span>
+        <span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">pname</span><span class="o">=</span><span class="n">exc</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">title</span><span class="p">(),</span>
+            <span class="n">exc</span><span class="o">=</span><span class="n">exc</span>
+        <span class="p">),</span>
+        <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Disable colors when piping output.</span>
+<span class="n">colr_auto_disable</span><span class="p">()</span>
+
+<span class="n">NAME</span> <span class="o">=</span> <span class="s1">&#39;CodePDF&#39;</span>
+<span class="n">VERSION</span> <span class="o">=</span> <span class="s1">&#39;0.0.4&#39;</span>
+<span class="n">VERSIONSTR</span> <span class="o">=</span> <span class="s1">&#39;{} v. {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">NAME</span><span class="p">,</span> <span class="n">VERSION</span><span class="p">)</span>
+<span class="n">SCRIPT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]))[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">SCRIPTDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Global debug flag, set with --debug.</span>
+<span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="c1"># File name to trigger reading from stdin.</span>
+<span class="n">STDIN_NAME</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span>
+<span class="c1"># Default pygments style.</span>
+<span class="n">DEFAULT_STYLE</span> <span class="o">=</span> <span class="s1">&#39;default&#39;</span>
+<span class="c1"># Default pygments lexer, when it can&#39;t be detected.</span>
+<span class="n">DEFAULT_LEXER</span> <span class="o">=</span> <span class="s1">&#39;text&#39;</span>
+<span class="c1"># Class name for each file&#39;s div.</span>
+<span class="n">DIV_CLASS</span> <span class="o">=</span> <span class="s1">&#39;hilight&#39;</span>
+
+<span class="n">USAGESTR</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;{versionstr}</span>
+<span class="s2">    Usage:</span>
+<span class="s2">        {script} -h | -S | -v</span>
+<span class="s2">        {script} [FILE...] [-f] [-H] [-l] [-o file] [-s style] [-t title] [-D]</span>
+
+<span class="s2">    Options:</span>
+<span class="s2">        FILE                    : File names to convert, or {stdin} for stdin.</span>
+<span class="s2">                                  If no names are given, stdin is used.</span>
+<span class="s2">        -D,--debug              : Print some debug info while running.</span>
+<span class="s2">        -f,--forcemd            : Highlight markdown syntax, instead of</span>
+<span class="s2">                                  converting to HTML.</span>
+<span class="s2">        -h,--help               : Show this help message.</span>
+<span class="s2">        -H,--html               : Output in HTML instead of PDF.</span>
+<span class="s2">                                  Using .htm or .html as the output file</span>
+<span class="s2">                                  extension will automatically set this flag.</span>
+<span class="s2">        -l,--linenumbers        : Use line numbers.</span>
+<span class="s2">        -o file,--out file      : Output file name.</span>
+<span class="s2">                                  Default: &lt;input_basename&gt;.pdf</span>
+<span class="s2">        -s name,--style name    : Pygments style name to use for code files.</span>
+<span class="s2">                                  Default: {default_style}</span>
+<span class="s2">        -S,--styles             : Print all known pygments styles.</span>
+<span class="s2">        -t title,--title title  : Title for the PDF.</span>
+<span class="s2">                                  Default: &lt;input_filename&gt;</span>
+<span class="s2">        -v,--version            : Show version.</span>
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+    <span class="n">default_style</span><span class="o">=</span><span class="n">DEFAULT_STYLE</span><span class="p">,</span>
+    <span class="n">script</span><span class="o">=</span><span class="n">SCRIPT</span><span class="p">,</span>
+    <span class="n">stdin</span><span class="o">=</span><span class="n">STDIN_NAME</span><span class="p">,</span>
+    <span class="n">versionstr</span><span class="o">=</span><span class="n">VERSIONSTR</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">argd</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Main entry point, expects doctopt arg dict as argd. &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">DEBUG</span>
+    <span class="n">DEBUG</span> <span class="o">=</span> <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--debug&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--styles&#39;</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">print_styles</span><span class="p">()</span>
+
+    <span class="n">filenames</span> <span class="o">=</span> <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;FILE&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="p">[</span><span class="n">STDIN_NAME</span><span class="p">]</span>
+    <span class="n">html_mode</span> <span class="o">=</span> <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--html&#39;</span><span class="p">]</span>
+    <span class="n">outname</span> <span class="o">=</span> <span class="n">get_output_name</span><span class="p">(</span>
+        <span class="n">filenames</span><span class="p">,</span>
+        <span class="n">output_name</span><span class="o">=</span><span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--out&#39;</span><span class="p">],</span>
+        <span class="n">html_mode</span><span class="o">=</span><span class="n">html_mode</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Check for user-provided .html output file.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">html_mode</span><span class="p">:</span>
+        <span class="n">html_mode</span> <span class="o">=</span> <span class="n">outname</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.htm&#39;</span><span class="p">,</span> <span class="s1">&#39;.html&#39;</span><span class="p">))</span>
+
+    <span class="n">success</span> <span class="o">=</span> <span class="n">convert_files</span><span class="p">(</span>
+        <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;FILE&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="p">[</span><span class="n">STDIN_NAME</span><span class="p">],</span>
+        <span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--out&#39;</span><span class="p">]</span> <span class="ow">or</span> <span class="n">get_output_name</span><span class="p">(</span><span class="n">filenames</span><span class="p">),</span>
+        <span class="n">stylename</span><span class="o">=</span><span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--style&#39;</span><span class="p">],</span>
+        <span class="n">linenos</span><span class="o">=</span><span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--linenumbers&#39;</span><span class="p">],</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--title&#39;</span><span class="p">],</span>
+        <span class="n">force_highlight</span><span class="o">=</span><span class="n">argd</span><span class="p">[</span><span class="s1">&#39;--forcemd&#39;</span><span class="p">],</span>
+        <span class="n">html_mode</span><span class="o">=</span><span class="n">html_mode</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">outname</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">0</span>
+    <span class="k">return</span> <span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">build_html</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">styles</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try to build a somewhat-sane html page from a body and style-defs. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">styles</span><span class="p">:</span>
+        <span class="n">styles</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;body {font-family: sans-serif;}&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">styles</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">styles</span><span class="p">)</span>
+        <span class="n">styles</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;body {font-family: sans-serif;}&#39;</span><span class="p">)</span>
+
+    <span class="n">styles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;hr {&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;border-style: hidden;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;height: 2px;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;background: #f1f1f1;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;margin-top: 25px;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;}&#39;</span><span class="p">,</span>
+    <span class="p">)))</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;&lt;html&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;head&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;title&gt;{}&lt;/title&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">title</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;&lt;style type=&quot;text/css&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">styles</span><span class="p">),</span>
+        <span class="s1">&#39;&lt;/style&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;/head&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;body&gt;&#39;</span><span class="p">,</span>
+        <span class="n">body</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;/body&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;/html&gt;&#39;</span>
+    <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">convert_files</span><span class="p">(</span>
+        <span class="n">filenames</span><span class="p">,</span> <span class="n">outputname</span><span class="p">,</span>
+        <span class="n">stylename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linenos</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">force_highlight</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">html_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert all files into a single PDF. &quot;&quot;&quot;</span>
+    <span class="n">stylename</span> <span class="o">=</span> <span class="n">stylename</span> <span class="ow">or</span> <span class="n">DEFAULT_STYLE</span>
+    <span class="n">debug</span><span class="p">(</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+            <span class="s1">&#39;Converting files:</span><span class="se">\n</span><span class="s1">    {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">s</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">)</span>
+            <span class="p">),</span>
+            <span class="s1">&#39;Output file: {outfile}&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;     Forced: {forced}&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;    LineNos: {linenos}&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;      Style: {style}&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;      Title: {title}&#39;</span><span class="p">,</span>
+        <span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">outfile</span><span class="o">=</span><span class="n">outputname</span><span class="p">,</span>
+            <span class="n">forced</span><span class="o">=</span><span class="n">force_highlight</span><span class="p">,</span>
+            <span class="n">linenos</span><span class="o">=</span><span class="n">linenos</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">htmlcontent</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">styledefs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">filename</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">filenames</span><span class="p">):</span>
+        <span class="n">titletext</span> <span class="o">=</span> <span class="n">title</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">titletext</span> <span class="ow">in</span> <span class="p">(</span><span class="n">STDIN_NAME</span><span class="p">,):</span>
+            <span class="n">titletext</span> <span class="o">=</span> <span class="s1">&#39;stdin&#39;</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">get_formatter</span><span class="p">(</span>
+            <span class="n">stylename</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+            <span class="n">linenos</span><span class="o">=</span><span class="n">linenos</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">titletext</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">styledefs</span><span class="p">:</span>
+            <span class="n">styledefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">formatter</span><span class="o">.</span><span class="n">get_style_defs</span><span class="p">())</span>
+        <span class="n">htmlcontent</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">convert_to_html_div</span><span class="p">(</span>
+                <span class="n">filename</span><span class="p">,</span>
+                <span class="n">formatter</span><span class="p">,</span>
+                <span class="n">stylename</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+                <span class="n">linenos</span><span class="o">=</span><span class="n">linenos</span><span class="p">,</span>
+                <span class="n">force_highlight</span><span class="o">=</span><span class="n">force_highlight</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="n">allcontent</span> <span class="o">=</span> <span class="n">build_html</span><span class="p">(</span>
+        <span class="s1">&#39;&lt;hr class=&quot;nv&quot;&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">htmlcontent</span><span class="p">),</span>
+        <span class="n">styles</span><span class="o">=</span><span class="n">styledefs</span><span class="p">,</span>
+        <span class="n">title</span><span class="o">=</span><span class="n">titletext</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">html_mode</span><span class="p">:</span>
+        <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Writing HTML to file...&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">outputname</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">allcontent</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+    <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Converting to PDF...&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pdf_from_string</span><span class="p">(</span>
+        <span class="n">allcontent</span><span class="p">,</span>
+        <span class="n">outputname</span><span class="p">,</span>
+        <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;--title&#39;</span><span class="p">:</span> <span class="n">titletext</span><span class="p">,</span> <span class="s1">&#39;--quiet&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">}</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">convert_highlighted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Highlight a file with pygments, and return the resulting HTML div. &quot;&quot;&quot;</span>
+    <span class="n">displayname</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">get_file_content</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">lexer</span> <span class="o">=</span> <span class="n">get_file_lexer</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">content</span><span class="p">)</span>
+    <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Highlighting: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">displayname</span><span class="p">))</span>
+    <span class="n">linkid</span> <span class="o">=</span> <span class="n">get_elem_id</span><span class="p">(</span><span class="n">displayname</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;&lt;div class=&quot;file&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="n">get_permalink_html</span><span class="p">(</span><span class="n">linkid</span><span class="p">),</span>
+        <span class="s1">&#39;&lt;h2 id=&quot;{}&quot; style=&quot;display: inline-block&quot;&gt;{}&lt;/h2&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">linkid</span><span class="p">,</span>
+            <span class="n">displayname</span>
+        <span class="p">),</span>
+        <span class="s1">&#39;&lt;div class=&quot;{}&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">DIV_CLASS</span><span class="p">),</span>
+        <span class="n">highlight</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">lexer</span><span class="p">,</span> <span class="n">formatter</span><span class="p">),</span>
+        <span class="s1">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;/div&gt;&#39;</span>
+    <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">convert_markdown</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">stylename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linenos</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert a markdown file to an HTML div, and return the result. &quot;&quot;&quot;</span>
+    <span class="n">displayname</span><span class="p">,</span> <span class="n">content</span> <span class="o">=</span> <span class="n">get_file_content</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">stylename</span> <span class="o">=</span> <span class="n">stylename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">stylename</span> <span class="k">else</span> <span class="n">DEFAULT_STYLE</span>
+    <span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Converting MD: {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">displayname</span><span class="p">))</span>
+    <span class="n">hilighter</span> <span class="o">=</span> <span class="n">CodeHiliteExtension</span><span class="p">(</span>
+        <span class="n">pygments_style</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+        <span class="n">linenums</span><span class="o">=</span><span class="n">linenos</span><span class="p">,</span>
+        <span class="n">noclasses</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;&lt;div class=&quot;markdown&quot;&gt;&#39;</span><span class="p">,</span>
+        <span class="n">markdown</span><span class="p">(</span>
+            <span class="n">content</span><span class="p">,</span>
+            <span class="n">output_format</span><span class="o">=</span><span class="s1">&#39;html5&#39;</span><span class="p">,</span>
+            <span class="n">extensions</span><span class="o">=</span><span class="p">[</span>
+                <span class="n">hilighter</span><span class="p">,</span>
+                <span class="n">FencedCodeExtension</span><span class="p">(),</span>
+                <span class="n">SaneListExtension</span><span class="p">(),</span>
+            <span class="p">]</span>
+        <span class="p">),</span>
+        <span class="s1">&#39;&lt;/div&gt;&#39;</span>
+    <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">convert_to_html_div</span><span class="p">(</span>
+        <span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">,</span>
+        <span class="n">stylename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linenos</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">force_highlight</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert a file to an html div.</span>
+<span class="sd">        The conversion method depends on the file extension.</span>
+<span class="sd">        build_html() should be used with the content returned here.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">force_highlight</span><span class="p">)</span> <span class="ow">and</span> <span class="n">filename</span><span class="o">.</span><span class="n">endswith</span><span class="p">((</span><span class="s1">&#39;.md&#39;</span><span class="p">,</span> <span class="s1">&#39;.markdown&#39;</span><span class="p">)):</span>
+        <span class="k">return</span> <span class="n">convert_markdown</span><span class="p">(</span>
+            <span class="n">filename</span><span class="p">,</span>
+            <span class="n">stylename</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+            <span class="n">linenos</span><span class="o">=</span><span class="n">linenos</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">convert_highlighted</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">formatter</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">debug</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Print a message only if DEBUG is truthy. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">DEBUG</span> <span class="ow">and</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="c1"># Include parent class name when given.</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;parent&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;parent&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Go back more than once when given.</span>
+    <span class="n">backlevel</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;back&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">KeyError</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;back&#39;</span><span class="p">)</span>
+
+    <span class="n">frame</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">()</span>
+    <span class="c1"># Go back a number of frames (usually 1).</span>
+    <span class="k">while</span> <span class="n">backlevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">frame</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_back</span>
+        <span class="n">backlevel</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lineno</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_lineno</span>
+    <span class="k">if</span> <span class="n">parent</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="s1">&#39;{}.{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">parent</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">__name__</span><span class="p">,</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">frame</span><span class="o">.</span><span class="n">f_code</span><span class="o">.</span><span class="n">co_name</span>
+
+    <span class="n">lineinfo</span> <span class="o">=</span> <span class="s1">&#39;{}:{} {}: &#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">C</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lineno</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;blue&#39;</span><span class="p">),</span>
+        <span class="n">C</span><span class="p">()</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s1">&#39;magenta&#39;</span><span class="p">),</span> <span class="s1">&#39;()&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="p">)</span>
+    <span class="c1"># Patch args to stay compatible with print().</span>
+    <span class="n">pargs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">C</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="p">()</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+    <span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">lineinfo</span><span class="p">,</span> <span class="n">pargs</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">pargs</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">get_elem_id</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Transform a file name or text into a slug, usable for an element id.</span>
+<span class="sd">        Removes non alpha-numeric characters, replaces spaces with -.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">word</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isalnum</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">get_file_content</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns a tuple of (display_name, content), handling stdin if</span>
+<span class="sd">        STDIN_NAME is used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">filename</span> <span class="ow">in</span> <span class="p">(</span><span class="n">STDIN_NAME</span><span class="p">,):</span>
+        <span class="k">return</span> <span class="s1">&#39;stdin&#39;</span><span class="p">,</span> <span class="n">read_stdin</span><span class="p">()</span>
+
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">filename</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">content</span>
+
+
+<span class="k">def</span> <span class="nf">get_file_lexer</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Try to get a lexer by file extension, guess by content if that fails.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Pygments sometimes returns a weird lexer for .txt files.</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.txt&#39;</span><span class="p">):</span>
+            <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_by_name</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_for_filename</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Guess by content.</span>
+            <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">guess_lexer</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
+            <span class="c1"># Fall back to default lexer.</span>
+            <span class="n">lexer</span> <span class="o">=</span> <span class="n">lexers</span><span class="o">.</span><span class="n">get_lexer_by_name</span><span class="p">(</span><span class="n">DEFAULT_LEXER</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lexer</span>
+
+
+<span class="k">def</span> <span class="nf">get_formatter</span><span class="p">(</span><span class="n">stylename</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">linenos</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">full</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get an HTMLFormatter from pygments. &quot;&quot;&quot;</span>
+    <span class="n">stylename</span> <span class="o">=</span> <span class="n">stylename</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">if</span> <span class="n">stylename</span> <span class="k">else</span> <span class="n">DEFAULT_STYLE</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">formatter</span> <span class="o">=</span> <span class="n">formatters</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">(</span>
+            <span class="n">cssclass</span><span class="o">=</span><span class="n">DIV_CLASS</span><span class="p">,</span>
+            <span class="n">linenos</span><span class="o">=</span><span class="s1">&#39;inline&#39;</span> <span class="k">if</span> <span class="n">linenos</span> <span class="ow">is</span> <span class="bp">True</span> <span class="k">else</span> <span class="n">linenos</span><span class="p">,</span>
+            <span class="n">style</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+            <span class="n">full</span><span class="o">=</span><span class="n">full</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">title</span>
+        <span class="p">)</span>
+    <span class="k">except</span> <span class="n">ClassNotFound</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">InvalidArg</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+                <span class="s1">&#39;Unknown style name: {style}&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;Expecting:&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;    {styles}&#39;</span>
+            <span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                <span class="n">style</span><span class="o">=</span><span class="n">stylename</span><span class="p">,</span>
+                <span class="n">styles</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">styles</span><span class="o">.</span><span class="n">STYLE_MAP</span><span class="p">))</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">formatter</span>
+
+
+<span class="k">def</span> <span class="nf">get_permalink_html</span><span class="p">(</span><span class="n">linkid</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return HTML needed to build a permalink link/icon for a header. &quot;&quot;&quot;</span>
+    <span class="n">svg</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    &lt;svg style=&quot;vertical-align: middle; display: inline;&quot;</span>
+<span class="s2">    height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;</span>
+<span class="s2">    &lt;path d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0</span>
+<span class="s2">    1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98</span>
+<span class="s2">    0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98</span>
+<span class="s2">    0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31</span>
+<span class="s2">    7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;</span>
+<span class="s2">    &lt;/path&gt;&lt;/svg&gt;</span>
+<span class="s2">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;&lt;a href=&quot;#{}&quot; style=&quot;text-decoration: none;&quot;&gt;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">linkid</span><span class="p">),</span>
+        <span class="n">svg</span><span class="p">,</span>
+        <span class="s1">&#39;&lt;/a&gt;&#39;</span>
+    <span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">get_output_name</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">output_name</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">html_mode</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Determine output file name to use when the user hasn&#39;t given one. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">output_name</span><span class="p">:</span>
+        <span class="c1"># Short-circuit auto-name-detection.</span>
+        <span class="k">return</span> <span class="n">output_name</span>
+
+    <span class="n">inputname</span> <span class="o">=</span> <span class="n">filenames</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">inputname</span> <span class="o">==</span> <span class="s1">&#39;-&#39;</span><span class="p">:</span>
+        <span class="n">inputname</span> <span class="o">=</span> <span class="s1">&#39;stdin&#39;</span>
+    <span class="n">parentdir</span><span class="p">,</span> <span class="n">basename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">inputname</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">parentdir</span><span class="p">:</span>
+        <span class="n">parentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">()</span>
+    <span class="k">return</span> <span class="s1">&#39;{name}{ext}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parentdir</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">)[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="n">ext</span><span class="o">=</span><span class="s1">&#39;.html&#39;</span> <span class="k">if</span> <span class="n">html_mode</span> <span class="k">else</span> <span class="s1">&#39;.pdf&#39;</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">print_err</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; A wrapper for print() that uses stderr by default. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;file&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span>
+    <span class="k">print</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">print_styles</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Print all known pygments styles and return a success status code. &quot;&quot;&quot;</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Style names:&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;    {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">    &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">styles</span><span class="o">.</span><span class="n">STYLE_MAP</span><span class="p">))</span>
+        <span class="p">)</span>
+    <span class="p">)))</span>
+    <span class="k">return</span> <span class="mi">0</span>
+
+
+<span class="k">def</span> <span class="nf">read_stdin</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Read from stdin, print a message if it&#39;s a terminal. &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">isatty</span><span class="p">()</span> <span class="ow">and</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">isatty</span><span class="p">():</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Reading from stdin until end of file (Ctrl + D)...</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdin</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+
+
+<span class="k">class</span> <span class="nc">InvalidArg</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Raised when the user has used an invalid argument. &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">=</span> <span class="n">msg</span> <span class="ow">or</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Invalid argument, {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;Invalid argument!&#39;</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">mainret</span> <span class="o">=</span> <span class="n">main</span><span class="p">(</span><span class="n">docopt</span><span class="p">(</span><span class="n">USAGESTR</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">VERSIONSTR</span><span class="p">))</span>
+    <span class="k">except</span> <span class="n">InvalidArg</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="n">print_err</span><span class="p">(</span><span class="n">ex</span><span class="p">)</span>
+        <span class="n">mainret</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">EOFError</span><span class="p">,</span> <span class="ne">KeyboardInterrupt</span><span class="p">):</span>
+        <span class="n">print_err</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">User cancelled.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">mainret</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="k">except</span> <span class="n">BrokenPipeError</span><span class="p">:</span>
+        <span class="n">print_err</span><span class="p">(</span>
+            <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Broken pipe, input/output was interrupted.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span>
+            <span class="nb">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+        <span class="n">mainret</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="k">except</span> <span class="ne">EnvironmentError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">strerror</span> <span class="ow">and</span> <span class="n">ex</span><span class="o">.</span><span class="n">filename</span><span class="p">:</span>
+            <span class="n">print_err</span><span class="p">(</span>
+                <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">{x.strerror}: {x.filename}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">ex</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">print_err</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">{}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">ex</span><span class="p">))</span>
+        <span class="n">mainret</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">mainret</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</body>
+</html>

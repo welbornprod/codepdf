@@ -61,7 +61,7 @@ except ImportError as eximpcolr:
 colr_auto_disable()
 
 NAME = 'CodePDF'
-VERSION = '0.0.3'
+VERSION = '0.0.4'
 VERSIONSTR = '{} v. {}'.format(NAME, VERSION)
 SCRIPT = os.path.split(os.path.abspath(sys.argv[0]))[1]
 SCRIPTDIR = os.path.abspath(sys.path[0])
@@ -363,7 +363,11 @@ def get_file_lexer(filename, content):
     """ Try to get a lexer by file extension, guess by content if that fails.
     """
     try:
-        lexer = lexers.get_lexer_for_filename(filename)
+        # Pygments sometimes returns a weird lexer for .txt files.
+        if filename.lower().endswith('.txt'):
+            lexer = lexers.get_lexer_by_name('text')
+        else:
+            lexer = lexers.get_lexer_for_filename(filename)
     except ClassNotFound:
         try:
             # Guess by content.
